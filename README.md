@@ -12,7 +12,7 @@
 	```bash
 	npm start
 	```
-4. To check the code against linting standards and run the unit tests
+4. To run the unit tests
 	```bash
 	npm run test
 	```
