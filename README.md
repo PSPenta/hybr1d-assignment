@@ -8,15 +8,11 @@
 	 npm run update:packages ( If wants to work with latest version of packages )
 	```
 2. Copy the .env.example file to the .env file and set up the variables
-3. To run the script, run the following command
-	```bash
-	node src/scripts/script.js
-	```
-4. Start the application
+3. Start the application
 	```bash
 	npm start
 	```
-5. To test code against linting standards
+4. To check the code against linting standards and run the unit tests
 	```bash
-	npm run lint
+	npm run test
 	```
