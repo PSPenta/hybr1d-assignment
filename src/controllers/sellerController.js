@@ -29,3 +29,29 @@ exports.createCatalog = async (req, res) => {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error!'));
   }
 };
+
+exports.allOrders = async (req, res) => {
+  try {
+    if (req.userId) {
+      const catalog = await model('Catalog').findOne({ where: { userId: req.userId } });
+      if (checkIfDataExists(catalog)) {
+        const products = await model('Product').findAll({ where: { catalogId: catalog.id } });
+        if (checkIfDataExists(products)) {
+          const productIds = products.map((product) => product.id);
+
+          const orders = await model('OrderProducts').findAll({ where: { product_id: productIds } });
+          if (checkIfDataExists(orders)) {
+            return res.json(response(null, true, { orders }));
+          }
+          return res.status(StatusCodes.BAD_REQUEST).json(response('No orders found for your catalog!'));
+        }
+        return res.status(StatusCodes.BAD_REQUEST).json(response('No products found in the catalog!'));
+      }
+      return res.status(StatusCodes.BAD_REQUEST).json(response('No catalogs for you!'));
+    }
+    return res.status(StatusCodes.BAD_REQUEST).json(response('Invalid user!'));
+  } catch (error) {
+    console.error(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error'));
+  }
+};

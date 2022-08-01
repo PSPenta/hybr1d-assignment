@@ -58,4 +58,34 @@ router.post(
   dependencies.controllers.seller.createCatalog
 );
 
+/**
+ * @swagger
+ * /seller/orders:
+ *  get:
+ *    tags:
+ *      - Seller
+ *    name: Gets all Orders of a seller API
+ *    summary: This api provides the list of all the orders related to the logged in seller.
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: Param Data
+ *        in: param
+ *        schema:
+ *          type: object
+ *    responses:
+ *      200:
+ *        description: All the blogs and videos.
+ *      422:
+ *        description: Input validation error messages.
+ *      500:
+ *        description: Internal server error.
+ */
+router.get(
+  '/orders',
+  dependencies.controllers.seller.allOrders
+);
+
 module.exports = router;
