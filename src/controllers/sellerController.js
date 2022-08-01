@@ -5,8 +5,7 @@ const { response, checkIfDataExists } = require('../helpers/utils');
 
 exports.createCatalog = async (req, res) => {
   try {
-    const userData = await model('User').findOne({ where: { id: req.userId } });
-    if (checkIfDataExists(userData)) {
+    if (req.userId) {
       let catalog = await model('Catalog').findOne({ where: { userId: req.userId } });
       if (!checkIfDataExists(catalog)) {
         catalog = await model('Catalog').create({ userId: req.userId });
