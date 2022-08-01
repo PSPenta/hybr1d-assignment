@@ -58,7 +58,7 @@ exports.jwtLogout = async (req, res) => {
 exports.register = async (req, res) => {
   try {
     const data = await model('User').findAll({ where: { username: req.body.username } });
-    if (checkIfDataExists(data)) {
+    if (!checkIfDataExists(data)) {
       const hashedPassword = await hash(req.body.password, 256);
       const user = await model('User').create({
         username: req.body.username,
