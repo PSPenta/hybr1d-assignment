@@ -41,3 +41,17 @@ exports.jwtAuth = async (req, res, next) => {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error!'));
   }
 };
+
+// eslint-disable-next-line consistent-return
+exports.isSeller = (req, res, next) => {
+  try {
+    if (req.userType.toLowerCase() === 'seller') {
+      next();
+    } else {
+      return res.status(StatusCodes.UNAUTHORIZED).json(response('Unauthorized user!'));
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error!'));
+  }
+};
