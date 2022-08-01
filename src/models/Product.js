@@ -1,29 +1,29 @@
 const { paginate } = require('sequelize-paginate');
 
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define('user', {
+  const Product = sequelize.define('product', {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       allowNull: false,
       primaryKey: true
     },
-    username: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
-    },
-    password: {
+    name: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    role: {
-      type: Sequelize.STRING,
+    price: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    catalogId: {
+      type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: 'buyer'
+      model: 'catalogs',
+      key: 'id'
     }
   });
 
-  paginate(User);
-  return User;
+  paginate(Product);
+  return Product;
 };

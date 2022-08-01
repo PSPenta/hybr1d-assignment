@@ -100,30 +100,36 @@ if (database.toLowerCase() === 'mongodb') {
 
   /** ** Establishing Relationships */
   /** Sequelize One-To-One relationship */
-  // this.model('User').hasOne(this.model('Profile'));
-  // this.model('Profile').belongsTo(this.model('User'), {
-  //   constraints: true,
-  //   onDelete: 'CASCADE'
-  // });
+  this.model('User').hasOne(this.model('Catalog'));
+  this.model('Catalog').belongsTo(this.model('User'), {
+    constraints: true,
+    onDelete: 'CASCADE'
+  });
 
   /** Sequelize One-To-Many relationship */
-  // this.model('User').hasMany(this.model('Product'));
-  // this.model('Product').belongsTo(this.model('User'), {
-  //   constraints: true,
-  //   onDelete: 'CASCADE'
-  // });
+  this.model('Catalog').hasMany(this.model('Product'));
+  this.model('Product').belongsTo(this.model('Catalog'), {
+    constraints: true,
+    onDelete: 'CASCADE'
+  });
+
+  this.model('User').hasMany(this.model('Order'));
+  this.model('Order').belongsTo(this.model('User'), {
+    constraints: true,
+    onDelete: 'CASCADE'
+  });
 
   /** Sequelize Many-To-Many relationship */
-  // this.model('User').belongsToMany(this.model('Product'), {
-  //   through: this.model('UserProducts'),
-  //   constraints: true,
-  //   onDelete: 'CASCADE'
-  // });
-  // this.model('Product').belongsToMany(this.model('User'), {
-  //   through: this.model('UserProducts'),
-  //   constraints: true,
-  //   onDelete: 'CASCADE'
-  // });
+  this.model('Order').belongsToMany(this.model('Product'), {
+    through: this.model('OrderProducts'),
+    constraints: true,
+    onDelete: 'CASCADE'
+  });
+  this.model('Product').belongsToMany(this.model('Order'), {
+    through: this.model('OrderProducts'),
+    constraints: true,
+    onDelete: 'CASCADE'
+  });
   /** ** Establishing Relationships */
 
   sequelize.sync()
