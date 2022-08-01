@@ -119,6 +119,12 @@ if (database.toLowerCase() === 'mongodb') {
     onDelete: 'CASCADE'
   });
 
+  this.model('User').hasMany(this.model('Blacklist'));
+  this.model('Blacklist').belongsTo(this.model('User'), {
+    constraints: true,
+    onDelete: 'CASCADE'
+  });
+
   /** Sequelize Many-To-Many relationship */
   this.model('Order').belongsToMany(this.model('Product'), {
     through: this.model('OrderProducts'),
