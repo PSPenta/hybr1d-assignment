@@ -9,7 +9,7 @@ const dependencies = require('./routesDependencies');
  *  post:
  *    tags:
  *      - Authentication
- *    name: Local Login API
+ *    name: Login API
  *    summary: Based on user's data, this api sent jwt token which leads to login process.
  *    consumes:
  *      - application/json
@@ -62,7 +62,7 @@ router.post(
  *  get:
  *    tags:
  *      - Authentication
- *    name: Logs out the current logged in user.
+ *    name: Logout API
  *    summary: This api terminates the login session of the user whose token is passed.
  *    consumes:
  *      - application/json
