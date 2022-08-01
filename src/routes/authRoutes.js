@@ -58,6 +58,37 @@ router.post(
 
 /**
  * @swagger
+ * /auth/logout:
+ *  get:
+ *    tags:
+ *      - Authentication
+ *    name: Logs out the current logged in user.
+ *    summary: This api terminates the login session of the user whose token is passed.
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: Param Data
+ *        in: param
+ *        schema:
+ *          type: object
+ *    responses:
+ *      200:
+ *        description: Success.
+ *      403:
+ *        description: Unauthorized user.
+ *      500:
+ *        description: Internal server error.
+ */
+router.get(
+  '/logout',
+  dependencies.middlewares.auth.jwtAuth,
+  dependencies.controllers.authClient.jwtLogout
+);
+
+/**
+ * @swagger
  * /auth/register:
  *  post:
  *    tags:
