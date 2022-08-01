@@ -8,19 +8,17 @@ const { response, checkIfDataExists } = require('../helpers/utils');
 
 exports.jwtLogin = async (req, res) => {
   try {
-    const userData = await model('User').findAll({ where: { username: req.body.username } });
-    // Note: If using Sequelize, update userData to userData[0] for all the following occurrences
+    const userData = await model('User').findOne({ where: { username: req.body.username } });
     let token = '';
     if (
       checkIfDataExists(userData)
-      && userData[0]
-      && await compare(req.body.password, userData[0].password)
+      && await compare(req.body.password, userData.password)
     ) {
       token = sign(
         {
-          username: userData[0].username,
-          userId: userData[0].id.toString(),
-          role: userData[0].role
+          username: userData.username,
+          userId: userData.id.toString(),
+          role: userData.role
         },
         jwt.secret,
         { expiresIn: jwt.expireIn }
@@ -57,7 +55,7 @@ exports.jwtLogout = async (req, res) => {
 
 exports.register = async (req, res) => {
   try {
-    const data = await model('User').findAll({ where: { username: req.body.username } });
+    const data = await model('User').findOne({ where: { username: req.body.username } });
     if (!checkIfDataExists(data)) {
       const hashedPassword = await hash(req.body.password, 256);
       const user = await model('User').create({

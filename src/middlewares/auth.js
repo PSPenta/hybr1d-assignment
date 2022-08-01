@@ -3,7 +3,7 @@ const { verify } = require('jsonwebtoken');
 
 const { model } = require('../config/dbConfig');
 const { jwt } = require('../config/serverConfig');
-const { response } = require('../helpers/utils');
+const { response, checkIfDataExists } = require('../helpers/utils');
 
 // eslint-disable-next-line consistent-return
 exports.jwtAuth = async (req, res, next) => {
@@ -11,8 +11,8 @@ exports.jwtAuth = async (req, res, next) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
       if (token) {
-        const blacklistedToken = await model('Blacklist').findAll({ where: { token } });
-        if (!blacklistedToken) {
+        const blacklistedToken = await model('Blacklist').findOne({ where: { token } });
+        if (!checkIfDataExists(blacklistedToken)) {
           const decodedToken = verify(token, jwt.secret, (err, decoded) => {
             if (err) {
               console.error('JWT Error:', err);
