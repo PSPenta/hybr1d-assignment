@@ -75,7 +75,7 @@ router.post(
  *          type: object
  *    responses:
  *      200:
- *        description: Success.
+ *        description: Success message.
  *      403:
  *        description: Unauthorized user.
  *      500:
