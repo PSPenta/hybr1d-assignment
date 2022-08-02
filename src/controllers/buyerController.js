@@ -5,13 +5,8 @@ const { response, checkIfDataExists } = require('../helpers/utils');
 
 exports.listOfSellers = async (req, res) => {
   try {
-    let sellers = await model('User').findAll({ where: { role: 'seller' } });
+    const sellers = await model('User').findAll({ where: { role: 'seller' }, attributes: ['id', 'username', 'role'] });
     if (checkIfDataExists(sellers)) {
-      sellers = sellers.map((seller) => ({
-        id: seller.id,
-        username: seller.username,
-        role: seller.role
-      }));
       return res.json(response(null, true, { sellers }));
     }
     return res.status(StatusCodes.BAD_REQUEST).json(response('No sellers found!'));
