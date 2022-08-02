@@ -52,6 +52,6 @@ exports.allOrders = async (req, res) => {
     return res.status(StatusCodes.BAD_REQUEST).json(response('Invalid user!'));
   } catch (error) {
     console.error(error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error'));
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error!'));
   }
 };

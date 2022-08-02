@@ -12,6 +12,6 @@ exports.listOfSellers = async (req, res) => {
     return res.status(StatusCodes.BAD_REQUEST).json(response('No sellers found!'));
   } catch (error) {
     console.error(error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal Server Error'));
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error!'));
   }
 };
