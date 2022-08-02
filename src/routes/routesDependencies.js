@@ -2,6 +2,7 @@
 module.exports = {
   controllers: {
     authClient: require('../controllers/authController'),
+    buyer: require('../controllers/buyerController'),
     seller: require('../controllers/sellerController')
   },
   middlewares: {
