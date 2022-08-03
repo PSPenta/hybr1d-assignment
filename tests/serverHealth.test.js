@@ -12,7 +12,8 @@ chai.use(chaiHttp);
 describe('Testing Server Health ', () => {
   // Test Case
   it('/GET Server Health', (done) => {
-    chai.request(server).get('/api/health').end((err, res) => {
+    // status route is provided by the express-status-monitor
+    chai.request(server).get('/status').end((err, res) => {
       if (err) {
         console.error('err', err);
         done();
