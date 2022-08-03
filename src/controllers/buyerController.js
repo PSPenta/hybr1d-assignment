@@ -1,7 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
+const { QueryTypes: { INSERT } } = require('sequelize');
 
-const { model } = require('../config/dbConfig');
+const sequelize = require('../config/dbConfig');
 const { response, checkIfDataExists } = require('../helpers/utils');
+
+const { model } = sequelize;
 
 exports.listOfSellers = async (req, res) => {
   try {
@@ -52,7 +55,10 @@ exports.createOrder = async (req, res) => {
             const order = await model('Order').create({ userId: req.userId });
             await products.forEach(async (product) => {
               // await order.addProduct(product);
-              await model('OrderProducts').create({ order, product });
+              // await model('OrderProducts').create({ order, product });
+
+              // Using the raw query as the above functions are not working as expected.
+              await sequelize.default.query('INSERT INTO order_products (product_id, order_id) VALUES (?, ?)', { replacements: [product.id, order.id], type: INSERT });
             });
             return res.status(StatusCodes.CREATED).json(response(null, true, { message: 'Order created successfully!' }));
           }
