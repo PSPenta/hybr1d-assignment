@@ -1,6 +1,9 @@
 const router = require('express').Router();
 
 const dependencies = require('./routesDependencies');
+const { response } = require('../helpers/utils');
+
+router.get('/health', (req, res) => res.json(response(null, true, { success: true })));
 
 router.use('/auth', require('./authRoutes'));
 
