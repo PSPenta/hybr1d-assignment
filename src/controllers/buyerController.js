@@ -39,3 +39,32 @@ exports.sellerCatalog = async (req, res) => {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error!'));
   }
 };
+
+exports.createOrder = async (req, res) => {
+  try {
+    if (checkIfDataExists(req.params.sellerId) && checkIfDataExists(req.body.products)) {
+      const seller = await model('User').findOne({ where: { id: req.params.sellerId } });
+      if (checkIfDataExists(seller)) {
+        const catalog = await model('Catalog').findOne({ where: { userId: req.params.sellerId } });
+        if (checkIfDataExists(catalog)) {
+          const products = await model('Product').findAll({ where: { id: req.body.products } });
+          if (checkIfDataExists(products)) {
+            const order = await model('Order').create({ userId: req.userId });
+            await products.forEach(async (product) => {
+              // await order.addProduct(product);
+              await model('OrderProducts').create({ order, product });
+            });
+            return res.status(StatusCodes.CREATED).json(response(null, true, { message: 'Order created successfully!' }));
+          }
+          return res.status(StatusCodes.BAD_REQUEST).json(response('No products found!'));
+        }
+        return res.status(StatusCodes.BAD_REQUEST).json(response('No catalog found for this seller!'));
+      }
+      return res.status(StatusCodes.BAD_REQUEST).json(response('Invalid seller!'));
+    }
+    return res.status(StatusCodes.BAD_REQUEST).json(response('Something went wrong!'));
+  } catch (error) {
+    console.error(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response('Internal server error!'));
+  }
+};
