@@ -3,6 +3,7 @@ const router = require('express').Router();
 const dependencies = require('./routesDependencies');
 const { response } = require('../helpers/utils');
 
+// Route for server Health Check
 router.get('/health', (req, res) => res.json(response(null, true, { success: true })));
 
 router.use('/auth', require('./authRoutes'));
