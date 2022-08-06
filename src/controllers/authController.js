@@ -39,7 +39,7 @@ exports.jwtLogout = async (req, res) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
       if (token) {
-        await model('Blacklist').create({
+        model('Blacklist').create({
           token,
           user: req.userId
         });
