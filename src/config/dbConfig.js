@@ -100,39 +100,39 @@ if (database.toLowerCase() === 'mongodb') {
 
   /** ** Establishing Relationships */
   /** Sequelize One-To-One relationship */
-  this.model('User').hasOne(this.model('Catalog'));
-  this.model('Catalog').belongsTo(this.model('User'), {
+  this.model('user').hasOne(this.model('catalog'));
+  this.model('catalog').belongsTo(this.model('user'), {
     constraints: true,
     onDelete: 'CASCADE'
   });
 
   /** Sequelize One-To-Many relationship */
-  this.model('Catalog').hasMany(this.model('Product'));
-  this.model('Product').belongsTo(this.model('Catalog'), {
+  this.model('catalog').hasMany(this.model('product'));
+  this.model('product').belongsTo(this.model('catalog'), {
     constraints: true,
     onDelete: 'CASCADE'
   });
 
-  this.model('User').hasMany(this.model('Order'));
-  this.model('Order').belongsTo(this.model('User'), {
+  this.model('user').hasMany(this.model('order'));
+  this.model('order').belongsTo(this.model('user'), {
     constraints: true,
     onDelete: 'CASCADE'
   });
 
-  this.model('User').hasMany(this.model('Blacklist'));
-  this.model('Blacklist').belongsTo(this.model('User'), {
+  this.model('user').hasMany(this.model('blacklist'));
+  this.model('blacklist').belongsTo(this.model('user'), {
     constraints: true,
     onDelete: 'CASCADE'
   });
 
   /** Sequelize Many-To-Many relationship */
-  this.model('Order').belongsToMany(this.model('Product'), {
-    through: this.model('OrderProducts'),
+  this.model('order').belongsToMany(this.model('product'), {
+    through: this.model('orderProducts'),
     constraints: true,
     onDelete: 'CASCADE'
   });
-  this.model('Product').belongsToMany(this.model('Order'), {
-    through: this.model('OrderProducts'),
+  this.model('product').belongsToMany(this.model('order'), {
+    through: this.model('orderProducts'),
     constraints: true,
     onDelete: 'CASCADE'
   });

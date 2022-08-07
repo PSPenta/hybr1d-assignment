@@ -11,7 +11,7 @@ exports.jwtAuth = async (req, res, next) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
       if (token) {
-        const blacklistedToken = await model('Blacklist').findOne({ where: { token } });
+        const blacklistedToken = await model('blacklist').findOne({ where: { token } });
         if (!checkIfDataExists(blacklistedToken)) {
           const decodedToken = verify(token, jwt.secret, (err, decoded) => {
             if (err) {

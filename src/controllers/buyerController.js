@@ -8,7 +8,7 @@ const { model } = sequelize;
 
 exports.listOfSellers = async (req, res) => {
   try {
-    const sellers = await model('User').findAll({ where: { role: 'seller' }, attributes: ['id', 'username', 'role'] });
+    const sellers = await model('user').findAll({ where: { role: 'seller' }, attributes: ['id', 'username', 'role'] });
     if (checkIfDataExists(sellers)) {
       return res.json(response(null, true, { sellers }));
     }
@@ -22,11 +22,11 @@ exports.listOfSellers = async (req, res) => {
 exports.sellerCatalog = async (req, res) => {
   try {
     if (checkIfDataExists(req.params.sellerId)) {
-      const seller = await model('User').findOne({ where: { id: req.params.sellerId } });
+      const seller = await model('user').findOne({ where: { id: req.params.sellerId } });
       if (checkIfDataExists(seller)) {
-        const catalog = await model('Catalog').findOne({ where: { userId: req.params.sellerId } });
+        const catalog = await model('catalog').findOne({ where: { userId: req.params.sellerId } });
         if (checkIfDataExists(catalog)) {
-          const products = await model('Product').findAll({ where: { catalogId: catalog.id }, attributes: ['id', 'name', 'price'] });
+          const products = await model('product').findAll({ where: { catalogId: catalog.id }, attributes: ['id', 'name', 'price'] });
           if (checkIfDataExists(products)) {
             return res.json(response(null, true, { products }));
           }
@@ -46,16 +46,16 @@ exports.sellerCatalog = async (req, res) => {
 exports.createOrder = async (req, res) => {
   try {
     if (checkIfDataExists(req.params.sellerId) && checkIfDataExists(req.body.products)) {
-      const seller = await model('User').findOne({ where: { id: req.params.sellerId } });
+      const seller = await model('user').findOne({ where: { id: req.params.sellerId } });
       if (checkIfDataExists(seller)) {
-        const catalog = await model('Catalog').findOne({ where: { userId: req.params.sellerId } });
+        const catalog = await model('catalog').findOne({ where: { userId: req.params.sellerId } });
         if (checkIfDataExists(catalog)) {
-          const products = await model('Product').findAll({ where: { id: req.body.products } });
+          const products = await model('product').findAll({ where: { id: req.body.products } });
           if (checkIfDataExists(products)) {
-            const order = await model('Order').create({ userId: req.userId });
+            const order = await model('order').create({ userId: req.userId });
             await products.forEach(async (product) => {
               // await order.addProduct(product);
-              // await model('OrderProducts').create({ order, product });
+              // await model('orderProducts').create({ order, product });
 
               // Using the raw query as the above functions are not working as expected.
               await sequelize.default.query('INSERT INTO order_products (product_id, order_id) VALUES (?, ?)', { replacements: [product.id, order.id], type: INSERT });
