@@ -29,7 +29,7 @@ exports.jwtAuth = async (req, res, next) => {
         return res.status(StatusCodes.UNAUTHORIZED).json(response('Your login session is either expired or the token is invalid, please try logging in again!'));
       }
 
-      if (decoded && decoded.userId && decoded.role) {
+      if (decoded && decoded.userId && decoded.userId.length > 10 && decoded.role) {
         req.userId = decoded.userId;
         req.userType = decoded.role;
         next();
