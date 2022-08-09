@@ -69,7 +69,7 @@ exports.register = async (req, res) => {
       role: req.body.role.toLowerCase()
     });
 
-    if (user) {
+    if (checkIfDataExists(user)) {
       return res.status(StatusCodes.CREATED).json(response(null, true, { message: 'User added successfully!' }));
     }
     return res.status(StatusCodes.BAD_REQUEST).json(response('Something went wrong!'));
