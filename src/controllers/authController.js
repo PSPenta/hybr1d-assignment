@@ -24,6 +24,7 @@ exports.jwtLogin = async (req, res) => {
         { expiresIn: jwt.expireIn }
       );
     }
+
     if (token) {
       return res.json(response(null, true, { token }));
     }
